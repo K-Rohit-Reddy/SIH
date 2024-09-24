@@ -20,8 +20,8 @@ time.sleep(6)
 # Log in to Instagram
 username = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "input[name='username']")))
 password = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "input[name='password']")))
-u_name = "amma_500026"  # Provide Instagram Username
-passw = "Test123@"  # Provide Instagram Password
+u_name = ""  # Provide Instagram Username
+passw = ""  # Provide Instagram Password
 username.clear()
 password.clear()
 username.send_keys(u_name)
