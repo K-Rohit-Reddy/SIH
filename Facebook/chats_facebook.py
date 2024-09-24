@@ -21,8 +21,8 @@ driver.get("http://www.facebook.com")
 # Log in to Facebook
 email = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "input[name='email']")))
 password = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "input[name='pass']")))
-fb_email = "lorven060905@gmail.com"  # Provide Facebook Email
-fb_password = "Test123@"  # Provide Facebook Password
+fb_email = ""  # Provide Facebook Email
+fb_password = ""  # Provide Facebook Password
 
 # Extract username from email
 fb_username = fb_email.split('@')[0]
