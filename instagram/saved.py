@@ -18,8 +18,8 @@ time.sleep(6)
 
 username = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "input[name='username']")))
 password = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, "input[name='password']")))
-u_name = "amma_500026"
-passw = "Test123@"
+u_name = ""
+passw = ""
 
 username.clear()
 password.clear()
