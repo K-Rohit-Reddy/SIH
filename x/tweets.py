@@ -10,15 +10,14 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 
 # Define paths and service
-service = Service("C:/Users/katik/Desktop/insta-to-pdf/py/chromedriver.exe")
-driver = webdriver.Chrome(service=service)
+driver = webdriver.Chrome()
 driver.maximize_window()
 
 # Navigate to Twitter login
 driver.get("https://x.com/i/flow/login")
 
 # Wait for username input and enter username
-username_input = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'input[autocomplete="username"]')))
+username_input = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, '//input[@autocomplete="username"]')))
 u_name = "Lorven197843"  # Enter your username here
 username_input.clear()
 username_input.send_keys(u_name)
