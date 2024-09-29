@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
@@ -17,46 +16,45 @@ driver.maximize_window()
 
 # Navigate to Twitter login
 driver.get("https://x.com/i/flow/login")
+time.sleep(5)  # Wait for the login page to load
 
 # Wait for username input and enter username
 username_input = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'input[autocomplete="username"]')))
 u_name = "Lorven197843"  # Enter your username here
 username_input.clear()
 username_input.send_keys(u_name)
+time.sleep(2)  # Short delay to ensure input is registered
 
 # Click 'Next' button
 next_button = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, "//span[text()='Next']")))
 next_button.click()
+time.sleep(3)  # Wait for the password field to appear
 
 # Wait for password input and enter password
 password_input = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.NAME, "password")))
 passw = "Test@123"  # Enter your password here
 password_input.clear()
 password_input.send_keys(passw)
+time.sleep(2)  # Short delay after entering password
 
 # Click 'Login' button
 login_button = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.CSS_SELECTOR, 'button[data-testid="LoginForm_Login_Button"]')))
 login_button.click()
-
-time.sleep(8)
+time.sleep(8)  # Wait for the login process to complete
 
 # Go to the profile page
 profile_url = f"https://x.com/{u_name}"
 driver.get(profile_url)
-time.sleep(5)
+time.sleep(5)  # Wait for the profile page to load
 
 # Scroll down the page to load more tweets
 n_scrolls = 2
 for _ in range(n_scrolls):
     driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
-    time.sleep(3)
+    time.sleep(3)  # Allow time for new tweets to load
 
 # Find tweets in the timeline
-tweets_section = WebDriverWait(driver, 10).until(
-    EC.presence_of_element_located((By.CSS_SELECTOR, 'div[aria-label]'))
-)
-
-tweets = tweets_section.find_elements(By.CSS_SELECTOR, 'article[data-testid="tweet"]')
+tweets = driver.find_elements(By.CSS_SELECTOR, 'article[data-testid="tweet"]')
 
 # Store tweet links
 tweet_links = []
@@ -80,6 +78,7 @@ c = canvas.Canvas(pdf_filename, pagesize=A4)
 width, height = A4
 margin = 30
 
+# Create title page in the PDF
 c.setFont("Times-Roman", 36)
 c.drawCentredString(width / 2, height - 100, "TWEETS")
 c.setFont("Times-Roman", 32)
@@ -105,12 +104,13 @@ def scale_image(img, max_width, max_height):
 for counter, tweet_link in enumerate(tweet_links, start=1):
     try:
         driver.get(tweet_link)
-        time.sleep(3)
+        time.sleep(5)  # Wait for the tweet to load completely
 
         # Take a screenshot of the tweet
         screenshot_path = os.path.join(path, f"tweet_{counter}.png")
         driver.save_screenshot(screenshot_path)
         print(f"Screenshot saved for tweet {counter}.")
+        time.sleep(2)  # Short delay before processing the image
 
         # Add screenshot to PDF
         img = Image.open(screenshot_path)
@@ -120,8 +120,6 @@ for counter, tweet_link in enumerate(tweet_links, start=1):
         c.drawImage(screenshot_path, x, y, width=img_pdf_width, height=img_pdf_height)
         c.showPage()
 
-        # Handle more media inside the tweet, if any (like Instagram)
-
     except Exception as e:
         print(f"Error processing tweet {counter}: {e}")
         continue
@@ -129,3 +127,4 @@ for counter, tweet_link in enumerate(tweet_links, start=1):
 # Save PDF and quit browser
 c.save()
 driver.quit()
+print("PDF created and browser closed successfully.")
