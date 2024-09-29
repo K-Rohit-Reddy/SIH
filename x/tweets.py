@@ -10,8 +10,7 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 
 # Define paths and service
-service = Service("C:/Users/katik/Desktop/insta-to-pdf/py/chromedriver.exe")
-driver = webdriver.Chrome(service=service)
+driver = webdriver.Chrome()
 driver.maximize_window()
 
 # Navigate to Twitter login
