@@ -63,9 +63,7 @@ def compile_report(username, password):
     login_facebook(driver, username, password)  # Changed to Facebook login
     fetch_facebook_posts(driver, pdf_report, username)  # Fetch Facebook posts
 
-    chat_pin = input("Enter you Chats PIN: ")
-
-    fetch_facebook_chats(driver, pdf_report, username, pin= chat_pin)  # Fetch Facebook chats
+    fetch_facebook_chats(driver, pdf_report, username)  # Fetch Facebook chats
     pdf_report.save()
     print(f"Facebook report saved as: {report_filename}")
     driver.quit()
