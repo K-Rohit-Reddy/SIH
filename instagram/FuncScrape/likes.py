@@ -6,8 +6,8 @@ from reportlab.lib.pagesizes import A4
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
-from pdf_utils import create_title_page
-from pdf_utils import scale_image
+from FuncScrape.pdf_utils import create_title_page
+from FuncScrape.pdf_utils import scale_image
 
 def fetch_likes(driver, pdf_report, username):
     """Fetches liked posts from Instagram and adds them to the PDF report."""
@@ -16,7 +16,7 @@ def fetch_likes(driver, pdf_report, username):
     time.sleep(6)
 
     # Create directory for saving screenshots
-    path = os.path.join(os.getcwd(), f"Likes_{username}")
+    path = os.path.join("Data", f"Data_{username}", "Likes")
     os.makedirs(path, exist_ok=True)
     create_title_page(pdf_report, "LIKED POSTS")
     # Initialize variable to keep track of the number of screenshots taken

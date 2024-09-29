@@ -6,8 +6,8 @@ import os
 from PIL import Image
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
-from pdf_utils import create_title_page
-from pdf_utils import scale_image
+from FuncScrape.pdf_utils import create_title_page
+from FuncScrape.pdf_utils import scale_image
 
 def fetch_saved_posts(driver, pdf_report, u_name):
     """Fetches saved posts of a user and adds them to the PDF report."""
@@ -52,7 +52,7 @@ def fetch_saved_posts(driver, pdf_report, u_name):
     print(f'Found {len(post_links)} saved posts.')
 
     # Prepare folder for saving screenshots
-    path = os.path.join(os.getcwd(), "Saved_Posts_" + u_name)
+    path = os.path.join("Data", f"Data_{u_name}", "Saved_Posts")
     os.makedirs(path, exist_ok=True)
 
     # Create title page

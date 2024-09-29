@@ -1,21 +1,21 @@
-from selenium.webdriver.common.by import By
-from selenium.webdriver.support.ui import WebDriverWait
-from selenium.webdriver.support import expected_conditions as EC
-import time
 import os
+import time
 from PIL import Image
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
-from pdf_utils import create_title_page
-from pdf_utils import scale_image
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from FuncScrape.pdf_utils import create_title_page
+from FuncScrape.pdf_utils import scale_image
 
-def fetch_tagged_posts(driver, pdf_report, u_name):
-    """Fetches tagged posts of a user and adds them to the PDF report."""
-    tagged_posts_url = f"https://www.instagram.com/{u_name}/tagged/"
-    driver.get(tagged_posts_url)
+def fetch_posts(driver, pdf_report, username):
+    """Fetches posts from Instagram and adds them to the PDF report."""
+    profile_url = f"https://www.instagram.com/{username}/"
+    driver.get(profile_url)
     time.sleep(6)
 
-    # Scroll the page to load more posts
+    # Scroll down to load posts
     n_scrolls = 2
     for _ in range(n_scrolls):
         driver.execute_script("window.scrollTo(0, document.body.scrollHeight);")
@@ -23,7 +23,7 @@ def fetch_tagged_posts(driver, pdf_report, u_name):
 
     time.sleep(4)
 
-    # Find and collect post links
+    # Extract post links
     post_links = []
     div_elements = WebDriverWait(driver, 10).until(
         EC.presence_of_all_elements_located((By.CSS_SELECTOR, 'div.x1lliihq.x1n2onr6.xh8yej3.x4gyw5p.xfllauq.xo2y696.x11i5rnm.x2pgyrj'))
@@ -36,35 +36,29 @@ def fetch_tagged_posts(driver, pdf_report, u_name):
             if href and 'instagram.com/p/' in href and href not in post_links:
                 post_links.append(href)
 
-    print(f'Found {len(post_links)} tagged posts.')
+    print(f'Found {len(post_links)} posts.')
 
-    # Prepare folder for saving screenshots
-    path = os.path.join(os.getcwd(), "Tagged_Posts_" + u_name)
+    path = os.path.join("Data", f"Data_{username}", "Posts")
     os.makedirs(path, exist_ok=True)
-
-    # Create title page
-    create_title_page(pdf_report, "TAGGED POSTS")
-
-    # Iterate over each post link and take screenshots
+    create_title_page(pdf_report, "POSTS")
+    width, height = A4
+    margin = 30
     for counter, post_link in enumerate(post_links, start=1):
         try:
             driver.get(post_link)
             time.sleep(3)
 
-            # Save screenshot
             screenshot_path = os.path.join(path, f"post_{counter}.png")
             driver.save_screenshot(screenshot_path)
-            print(f"Screenshot saved for tagged post {counter}.")
+            print(f"Screenshot saved for post {counter}.")
 
-            # Open the image and scale it to fit the PDF
             img = Image.open(screenshot_path)
-            img_pdf_width, img_pdf_height = scale_image(img, A4[0] - 2 * 30, A4[1] - 2 * 30)
-            x = (A4[0] - img_pdf_width) / 2
-            y = (A4[1] - img_pdf_height) / 2
+            img_pdf_width, img_pdf_height = scale_image(img, width - 2 * margin, height - 2 * margin)
+            x = (width - img_pdf_width) / 2
+            y = (height - img_pdf_height) / 2
             pdf_report.drawImage(screenshot_path, x, y, width=img_pdf_width, height=img_pdf_height)
             pdf_report.showPage()
             i=2
-            # Handle carousel posts (multiple images in one post)
             while True:
                 try:
                     next_button = WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, '//button[@aria-label="Next"]')))
@@ -73,10 +67,10 @@ def fetch_tagged_posts(driver, pdf_report, u_name):
 
                     screenshot_path = os.path.join(path, f"post_{counter}_{i}.png")
                     driver.save_screenshot(screenshot_path)
-                    print(f"Screenshot saved for tagged post {counter} (next).")
+                    print(f"Screenshot saved for post {counter} (next).")
 
                     img = Image.open(screenshot_path)
-                    img_pdf_width, img_pdf_height = scale_image(img, A4[0] - 2 * 30, A4[1] - 2 * 30)
+                    img_pdf_width, img_pdf_height = scale_image(img, width - 2 * margin, height - 2 * margin)
                     pdf_report.drawImage(screenshot_path, x, y, width=img_pdf_width, height=img_pdf_height)
                     pdf_report.showPage()
                     i+=1
@@ -84,5 +78,5 @@ def fetch_tagged_posts(driver, pdf_report, u_name):
                     break
 
         except Exception as e:
-            print(f"Error processing tagged post {counter}: {e}")
+            print(f"Error processing post {counter}: {e}")
             continue

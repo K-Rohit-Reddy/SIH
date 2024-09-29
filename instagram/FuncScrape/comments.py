@@ -4,8 +4,8 @@ from PIL import Image
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from selenium.webdriver.common.by import By
-from pdf_utils import create_title_page
-from pdf_utils import scale_image
+from FuncScrape.pdf_utils import create_title_page
+from FuncScrape.pdf_utils import scale_image
 
 def fetch_comments(driver, pdf_report, username):
     """Fetches comments from Instagram and adds them to the PDF report."""
@@ -14,7 +14,8 @@ def fetch_comments(driver, pdf_report, username):
     time.sleep(6)
 
     # Create directory for saving screenshots
-    path = os.path.join(os.getcwd(), "Comments_" + username)
+    path = os.path.join("Data", f"Data_{username}", "Comments")
+
     os.makedirs(path, exist_ok=True)
     create_title_page(pdf_report, "COMMENTS")
 

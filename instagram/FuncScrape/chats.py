@@ -6,8 +6,8 @@ import os
 from PIL import Image
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
-from pdf_utils import create_title_page
-from pdf_utils import scale_image
+from FuncScrape.pdf_utils import create_title_page
+from FuncScrape.pdf_utils import scale_image
 
 def fetch_chats(driver, pdf_report, u_name):
     """Fetches Instagram chats of a user and adds them to the PDF report."""
@@ -25,7 +25,7 @@ def fetch_chats(driver, pdf_report, u_name):
     chat_divs = WebDriverWait(driver, 10).until(EC.presence_of_all_elements_located((By.CSS_SELECTOR, 'div.x13dflua.x19991ni')))
     print(f"Found {len(chat_divs)} chats.")
 
-    path = os.path.join(os.getcwd(), "Chats_" + u_name)
+    path = os.path.join("Data", f"Data_{u_name}","Chats")
     os.makedirs(path, exist_ok=True)
     create_title_page(pdf_report, "CHATS")
     # Add title page for chats
