@@ -3,6 +3,7 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from selenium.webdriver.chrome.options import Options
 import time
 from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
@@ -55,8 +56,9 @@ def compile_report(username, password):
     report_filename = os.path.join(data_folder_path, f"Facebook_Report.pdf")  # Use the new data folder path
     pdf_report = canvas.Canvas(report_filename, pagesize=A4)
     create_title_page(username, pdf_report)
-    
-    driver = webdriver.Chrome()
+    chrome_options = Options()
+    chrome_options.add_argument("--disable-notifications")
+    driver = webdriver.Chrome(options=chrome_options)
     driver.maximize_window()
     login_facebook(driver, username, password)  # Changed to Facebook login
     fetch_facebook_posts(driver, pdf_report, username)  # Fetch Facebook posts
