@@ -14,7 +14,7 @@ def fetch_comments(driver, pdf_report, username):
     time.sleep(6)
 
     # Create directory for saving screenshots
-    path = os.path.join("Data", f"Data_{username}", "Comments")
+    path = os.path.join("./instagram/Data", f"Data_{username}", "Comments")
 
     os.makedirs(path, exist_ok=True)
     create_title_page(pdf_report, "COMMENTS")

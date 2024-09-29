@@ -38,7 +38,7 @@ def fetch_posts(driver, pdf_report, username):
 
     print(f'Found {len(post_links)} posts.')
 
-    path = os.path.join("Data", f"Data_{username}", "Posts")
+    path = os.path.join("./instagram/Data", f"Data_{username}", "Posts")
     os.makedirs(path, exist_ok=True)
     create_title_page(pdf_report, "POSTS")
     width, height = A4

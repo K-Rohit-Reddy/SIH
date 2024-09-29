@@ -18,7 +18,7 @@ from FuncScrape.chats import fetch_chats
 
 def create_data_folder(username):
     folder_name = f"Data_{username}"
-    folder_path = os.path.join("Data", folder_name)
+    folder_path = os.path.join("instagram","Data", folder_name)
     if not os.path.exists(folder_path):
         os.makedirs(folder_path)
         print(f"Created directory: {folder_path}")
@@ -58,7 +58,7 @@ def login_instagram(driver, username, password):
 
 def compile_report(username, password):
     create_data_folder(username)
-    report_filename = os.path.join("Data",f"Data_{username}", f"Instagram_Report.pdf")
+    report_filename = os.path.join("instagram","Data",f"Data_{username}", f"Instagram_Report.pdf")
     pdf_report = canvas.Canvas(report_filename, pagesize=A4)
     create_title_page(username, pdf_report)
     driver = webdriver.Chrome()

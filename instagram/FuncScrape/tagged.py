@@ -38,7 +38,7 @@ def fetch_tagged_posts(driver, pdf_report, u_name):
     print(f'Found {len(post_links)} tagged posts.')
 
     # Prepare folder for saving screenshots
-    path = os.path.join("Data", f"Data_{u_name}", "Tagged_Posts")
+    path = os.path.join("./instagram/Data", f"Data_{u_name}", "Tagged_Posts")
     os.makedirs(path, exist_ok=True)
 
     # Create title page

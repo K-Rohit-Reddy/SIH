@@ -16,7 +16,7 @@ def fetch_likes(driver, pdf_report, username):
     time.sleep(6)
 
     # Create directory for saving screenshots
-    path = os.path.join("Data", f"Data_{username}", "Likes")
+    path = os.path.join("./instagram/Data", f"Data_{username}", "Likes")
     os.makedirs(path, exist_ok=True)
     create_title_page(pdf_report, "LIKED POSTS")
     # Initialize variable to keep track of the number of screenshots taken
