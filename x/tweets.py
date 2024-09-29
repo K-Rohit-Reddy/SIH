@@ -52,7 +52,7 @@ for _ in range(n_scrolls):
 
 # Find tweets in the timeline
 tweets_section = WebDriverWait(driver, 10).until(
-    EC.presence_of_element_located((By.CSS_SELECTOR, 'div[aria-label="Timeline: Lorven’s posts"]'))
+    EC.presence_of_element_located((By.CSS_SELECTOR, 'div[aria-label]'))
 )
 
 tweets = tweets_section.find_elements(By.CSS_SELECTOR, 'article[data-testid="tweet"]')
