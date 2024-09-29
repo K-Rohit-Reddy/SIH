@@ -56,12 +56,14 @@ def compile_report(username, password):
     pdf_report = canvas.Canvas(report_filename, pagesize=A4)
     create_title_page(username, pdf_report)
     
-    service = Service("C:/Users/katik/Desktop/insta-to-pdf/py/chromedriver.exe")
-    driver = webdriver.Chrome(service=service)
+    driver = webdriver.Chrome()
     driver.maximize_window()
     login_facebook(driver, username, password)  # Changed to Facebook login
     fetch_facebook_posts(driver, pdf_report, username)  # Fetch Facebook posts
-    fetch_facebook_chats(driver, pdf_report, username)  # Fetch Facebook chats
+
+    chat_pin = input("Enter you Chats PIN: ")
+
+    fetch_facebook_chats(driver, pdf_report, username, pin= chat_pin)  # Fetch Facebook chats
     pdf_report.save()
     print(f"Facebook report saved as: {report_filename}")
     driver.quit()

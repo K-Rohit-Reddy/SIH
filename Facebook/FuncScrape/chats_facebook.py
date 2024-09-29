@@ -8,10 +8,10 @@ from reportlab.pdfgen import canvas
 from reportlab.lib.pagesizes import A4
 from FuncScrape.pdf_utils import create_title_page  # Import title page function
 
-def fetch_facebook_chats(driver, pdf_report, fb_username):
+def fetch_facebook_chats(driver, pdf_report, fb_username, pin):
     """Fetches Facebook chats and adds them to the PDF report."""
     # Create folder for saving chat screenshots inside 'Data'
-    data_folder = os.path.join("C:/Users/katik/Desktop/insta-to-pdf/py/Facebook/Data",f"Data_{fb_username}", "Chats")
+    data_folder = os.path.join("./Facebook/Data", f"Data_{fb_username}", "Chats")
     os.makedirs(data_folder, exist_ok=True)
 
     # Add title page for chats section
@@ -21,6 +21,19 @@ def fetch_facebook_chats(driver, pdf_report, fb_username):
     messages_url = "https://www.facebook.com/messages/t/"
     driver.get(messages_url)
     time.sleep(5)
+
+    # Check if the PIN input appears and handle it
+    try:
+        pin_input = WebDriverWait(driver, 10).until(
+            EC.element_to_be_clickable((By.CSS_SELECTOR, "input#mw-numeric-code-input-prevent-composer-focus-steal"))
+        )
+        pin_input.clear()
+        pin_input.send_keys(pin)
+        
+        # Wait for the PIN submission process
+        time.sleep(2)
+    except Exception as e:
+        print("No PIN input found, proceeding without entering PIN.")
 
     # Scroll to load more messages
     previous_height = driver.execute_script("return document.body.scrollHeight")

@@ -13,7 +13,7 @@ def fetch_facebook_posts(driver, pdf_report, fb_username):
     """Fetches Facebook posts and adds them to the PDF report."""
     
     # Create folder for saving post images inside 'Data'
-    data_folder = os.path.join("C:/Users/katik/Desktop/insta-to-pdf/py/Facebook/Data", f"Data_{fb_username}", "Posts")
+    data_folder = os.path.join("./Facebook/Data", f"Data_{fb_username}", "Posts")
     os.makedirs(data_folder, exist_ok=True)
 
     # Add title page for posts section
@@ -82,8 +82,7 @@ def fetch_facebook_posts(driver, pdf_report, fb_username):
             pdf_report.drawImage(image_path, x, y, width=img_pdf_width, height=img_pdf_height)
 
             # If two images are placed on a single page, create a new page
-            if counter % 2 == 0:
-                pdf_report.showPage()
+            pdf_report.showPage()
 
         except Exception as e:
             print(f"Error processing post {counter}: {e}")
