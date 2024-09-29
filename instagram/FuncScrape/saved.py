@@ -52,7 +52,7 @@ def fetch_saved_posts(driver, pdf_report, u_name):
     print(f'Found {len(post_links)} saved posts.')
 
     # Prepare folder for saving screenshots
-    path = os.path.join("Data", f"Data_{u_name}", "Saved_Posts")
+    path = os.path.join("./instagram/Data", f"Data_{u_name}", "Saved_Posts")
     os.makedirs(path, exist_ok=True)
 
     # Create title page
